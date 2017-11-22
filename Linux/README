@@ -1,63 +1,43 @@
+XFOILVG - D. De Tavernier and D. Baldacchino
+-----------------------------------------------------------------
 
-General
--------
-XFOIL and its plot library should compile on any Unix system 
-with normal Fortran-77, C, and X-Windows support.  So far,
-XFOIL has been tested on the following systems:
-
-  DEC-5000
-  Alpha
-  SGI
-* Sun
-* RS/6000
-* HP-9000
-* Pentium/Linux 
+This folder contains the source code and executable of the XFOILVG Linux version. 
 
 
-The systems marked with "*" have peculiar features which require slight 
-modifications to the Makefiles in the plotlib/ and bin/ directories.  
-Examine these Makefiles before building the plot library and XFOIL.
+INTRODUCTION
+------------
+The physics involved in the shed vorticity of the VGs is nontrivial and poses a number of modelling challenges. Numerous VG modelling techniques have been explored in literature, most of which utilise Computational Fluid Dynamics (CFD). Despite considerable advances such techniques are generally time and resource expensive. Therefore, it is of interest to extend integral boundary-layer codes such that they can analyse the influence of flow mixing devices on airfoil performance. 
 
 
-Build sequence
---------------
+APPROACH AND METHODS
+--------------------
+The effect of VGs can be introduced into the IBL code in a number of ways. In this case, a source term approach is used, in which an additional production term is added to the closure relations. This approach was already initiated by Kerho and Kramer [1] and is revised and extended in the master thesis of D. De Tavernier [2]. A source term is added to the shear-lag equation to modify the dissipation. VGs promote increased dissipation by introducing streamwise vortices into the boundary-layer. 
 
-1) Build Orr-Sommerfeld database in ./orrs
+The source term shape function is selected so as to mimic the streamwise vortex strength from mixing devices. The vortex strength generally require around one vane chord length to develop before reaching their full rolled-up intensity and decays roughly exponential. The source term expression consists of three variables: the source term strength, decay rate and the location of the VG with respect to the leading edge of the underlying surface. 
 
- % cd orrs
+Of the three source term shape function variables, the source strength and the decay rate are unknown and expected to depend on the airfoil/VG configuration. The required value of both parameters is determined here based on a calibration process using reference data (from high-fidelity numerical simulations and measurements). To consequently relate the source term magnitude to airfoil/VG parameters, a semi-empirical relation is set up. The independent variables are selected following the thin airfoil theory for circulation and are: (1) the VG length lVG, (2) the angle between the VG chord line and the incoming flow ?VG, (3) the flow velocity at the VG UVG, and (4) the VG height, hVG/lVG, scaled as the vane aspect ratio. The expression is implemented in XFOIL. 
 
-Follow directions in orrs/README
+RESULTS AND CONCLUSION
+--------------------
+Comparing all available reference cases with the XFOIL predictions, we can establish goodness measures. The error for the global, spanwise-averaged lift coefficient is normally distributed with a mean value near zero. With a 90% confidence interval the prediction of the maximum lift coefficient will be accurate within 10%. The stall angle is mostly over-predicted by XFOILVG which is a tendency of the present code for predictions without VGs. The drag coefficient is consistently under-predicted with around 25%. The net increment in drag by adding VGs is predicted lower than given by the reference data due to the lack in modelling the parasitic drag of the VGs itself. 
 
+The presented methodology demonstrates a potentially useful engineering approach for modelling vortex generators in integral boundary-layer codes. Reasonable predictions have been demonstrated. The code is capable of addressing the spanwise-averaged effect of varying the VG height, length, inflow angle and chordwise position but is not expected to capture subtle differences in VG geometry. 
 
-2) Build the plot library in  ./plotlib  ...
-
- % cd plotlib
- % edit Makefile        (set compiler flags for your machine)
- % make libPlt.a
-
-
-3) Build the programs in  ./bin  ...
-
- % cd bin
- % edit Makefile        (set compiler flags for your machine)
- % make xfoil
- % make pplot
- % make pxplot
-
-
-Documentation
--------------
-User Guide is in the  xfoil.doc  file.  If impatient, you can just
-run XFOIL in the runs/ directory, which contains a few input files:
-
- % cd runs
- % ../bin/xfoil
-
-The file  session.txt  contains keyboard inputs for a typical interactive 
-session.  If one is lost when running XFOIL, typing a "?" at any command 
-prompt, e.g.  
-
- .GDES  c>  ?  
-
-will always produce a keyboard command menu.
+USER MANUAL
+-----------
+XFOILVG works similar as the original XFOIL code, with the exception it allows the user to define VG properties. 
+·	Direct operation (> OPER)
+·	Enable viscous mode and define Reynolds number (> VISC)
+·	Change BL parameters (> VPAR)
+·	Enable VG option and define VG parameters (> XVG)
+VG location on suction side XVG/c [-]
+VG location on pressure side XVG/c [-]
+VG height HVG/c [-]
+VG length LVG/c [-]
+VG inflow angle ?VG [deg]
+·	Prescribe angle of attack and run simulation (> ALFA, ASEQ)
+REFERENCES
+----------
+[1] KERHO, M., AND KRAMER, B. Enhanced airfoil design incorporating boundary layer mixing devices. American Institute of Aeronautics and Astronautics, AIAA-2003-0211 (January 2003). 
+[2] DE TAVERNIER, D. Modelling of vortex generators within the integral boundary-layer theory. Master’s thesis, Delft University of Technology(November 2016). 
 

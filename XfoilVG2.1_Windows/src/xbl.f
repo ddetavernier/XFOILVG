@@ -191,16 +191,18 @@ C**** Sweep downstream setting up BL equation linearizations
         VGTHET = THET(IBL,IS) 
         VGUE = UEDG(IBL,IS)
         VGH = VGDSTR/VGTHET
+        VGRT = REINF*VGUE*VGTHET
         VGDELTA = VGTHET*(3.15+1.72/VGH)+VGDSTR
-        CFVG = 1.0
         PARVG = W_VG*SIN(Beta_VG/180*3.141592)
         UUEVG = VGUE*(H_VG/VGDELTA)**(1/7)
+     
+        IF (VGDELTA.LE.VGDELTA) THEN
+          UUEVG = VGUE
+        ENDIF
         
-      IF (VGDELTA.LE.VGDELTA) THEN
-        UUEVG = VGUE
-      ENDIF
+		        
 C Define emperical parameters
-        B_head(1) = 0.022
+        B_head(1) = 0.0220
         B_head(2) = 0.2840
         B_head(3) = 0.4536
         B_head(4) = 0.3795
@@ -212,6 +214,10 @@ C Define Integral according to emperical relation
         TRZVG = TRZVG * UUEVG**B_head(4)
         
         IF (TRZVG.LE.0.0 ) THEN
+          TRZVG = 0.0
+        ENDIF
+        
+        IF (H_VG.EQ.0.0) THEN
           TRZVG = 0.0
         ENDIF
           
@@ -702,24 +708,22 @@ C---- march downstream
         VGTHET = THET(IBL,IS) 
         VGUE = UEDG(IBL,IS)
         VGH = VGDSTR/VGTHET
+        VGRT = REINF*VGUE*VGTHET
         VGDELTA = VGTHET*(3.15+1.72/VGH)+VGDSTR
-        CFVG = 1.0
         PARVG = W_VG*SIN(Beta_VG/180*3.141592)
         UUEVG = VGUE*(H_VG/VGDELTA)**(1/7)
-
-      IF (VGDELTA.LE.VGDELTA) THEN
-        UUEVG = VGUE
-      ENDIF
-      
-      IF (VGDELTA.LE.VGDELTA) THEN
-        UUEVG = VGUE
-      ENDIF
+     
+        IF (VGDELTA.LE.VGDELTA) THEN
+          UUEVG = VGUE
+        ENDIF
         
+		        
 C Define emperical parameters
-        B_head(1) = 0.022
+        B_head(1) = 0.0220
         B_head(2) = 0.2840
         B_head(3) = 0.4536
         B_head(4) = 0.3795
+
                 
 C Define Integral according to emperical relation
         TRZVG = B_head(1)
@@ -728,6 +732,10 @@ C Define Integral according to emperical relation
         TRZVG = TRZVG * UUEVG**B_head(4)
         
         IF (TRZVG.LE.0.0 ) THEN
+          TRZVG = 0.0
+        ENDIF
+        
+        IF (H_VG.EQ.0.0) THEN
           TRZVG = 0.0
         ENDIF
           
@@ -1130,25 +1138,22 @@ C---- march downstream
 
        iii = IPAN(IBL,IS)
       
-      IF ((X(iii) > XVG(IS)) .AND. (VGTHET.EQ.0))THEN
+       IF ((X(iii) > XVG(IS)) .AND. (VGTHET.EQ.0))THEN
         VGDSTR = DSTR(IBL,IS)
         VGTHET = THET(IBL,IS) 
         VGUE = UEDG(IBL,IS)
         VGH = VGDSTR/VGTHET
+        VGRT = REINF*VGUE*VGTHET
         VGDELTA = VGTHET*(3.15+1.72/VGH)+VGDSTR
-        CFVG = 1.0
         PARVG = W_VG*SIN(Beta_VG/180*3.141592)
         UUEVG = VGUE*(H_VG/VGDELTA)**(1/7)
-
-      IF (VGDELTA.LE.VGDELTA) THEN
-        UUEVG = VGUE
-      ENDIF
-        
-      IF (VGDELTA.LE.VGDELTA) THEN
-        UUEVG = VGUE
-      ENDIF       
+     
+        IF (VGDELTA.LE.VGDELTA) THEN
+          UUEVG = VGUE
+        ENDIF
+        	        
 C Define emperical parameters
-        B_head(1) = 0.022
+        B_head(1) = 0.0220
         B_head(2) = 0.2840
         B_head(3) = 0.4536
         B_head(4) = 0.3795
@@ -1160,6 +1165,10 @@ C Define Integral according to emperical relation
         TRZVG = TRZVG * UUEVG**B_head(4)
         
         IF (TRZVG.LE.0.0 ) THEN
+          TRZVG = 0.0
+        ENDIF
+        
+        IF (H_VG.EQ.0.0) THEN
           TRZVG = 0.0
         ENDIF
           

@@ -41,10 +41,10 @@ C
      &  /'  XFOILVG Version 2.1 (23-11-2017)'
      &  /'  Built on XFOIL Version', F5.2
      &  /'  Copyright (C) 2000   Mark Drela, Harold Youngren'
-     & //'  XFOILVG incorporates vortex generators'
+     & //'  XFOILVG incorporates vortex generators' 
      &  /'  using a source term technique, similar to that'
-     &  /'  by Kerho and Kramer <AIAA 2003-211>' 
-     & //'  Modified by Delphine De Tavernier,' 
+     &  /'  by Kerho and Kramer <AIAA 2003-211>'
+     & //'  Modified by Delphine De Tavernier,'
      &  /'  Daniel Baldacchino and Carlos Ferreira'
      &  /'  Contact: d.a.m.detavernier@tudelft.nl'
      &  /' ===================================================')
